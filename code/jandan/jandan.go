@@ -1,6 +1,7 @@
 package jandan
 
 import (
+	"../rule"
 	"bytes"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
@@ -13,8 +14,8 @@ import (
 	"time"
 )
 
-func New(dir string, startPage int, cookie string, client *http.Client) *Jandan {
-	return &Jandan{dir: dir, currentPage: startPage, userCookie: cookie, url: "http://jandan.net/ooxx/page-", client: client}
+func New(url string, dir string, startPage int, r rule.Rule, cookie string, client *http.Client) *Jandan {
+	return &Jandan{dir: dir, currentPage: startPage, userCookie: cookie, url: url, r: r, client: client}
 }
 
 type Jandan struct {
@@ -23,6 +24,7 @@ type Jandan struct {
 	userCookie  string
 	url         string
 	client      *http.Client
+	r           rule.Rule
 }
 
 func (p *Jandan) Start() {
@@ -84,10 +86,8 @@ func (p *Jandan) parseImageUrl(reader io.Reader) (res []string, err error) {
 		return nil, err
 	}
 
-	doc.Find("a.view_img_link").Each(func(i int, s *goquery.Selection) {
-		if img, exist := s.Attr("href"); exist {
-			res = append(res, img)
-		}
+	p.r.GetRule(doc, func(image string) {
+		res = append(res, image)
 	})
 
 	return res, nil
