@@ -1,4 +1,4 @@
-package rule
+package jandan
 
 import (
 	"github.com/PuerkitoBio/goquery"

@@ -2,7 +2,6 @@ package main
 
 import (
 	"./jandan"
-	"./rule"
 	"flag"
 	"net/http"
 	"runtime"
@@ -23,5 +22,5 @@ func init() {
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	jandan.New("http://jandan.net/ooxx/page-", *dir, *startPage, &rule.FindRule{}, *userCookie, client).Start()
+	jandan.New("http://jandan.net/ooxx/page-", *dir, *startPage, &jandan.FindRule{}, *userCookie, client).Start()
 }
