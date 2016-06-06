@@ -14,8 +14,8 @@ import (
 	"time"
 )
 
-func New(dir string, startPage int, r rule.Rule, cookie string, client *http.Client) *Meizar {
-	return &Meizar{dir: dir, currentPage: startPage, userCookie: cookie, r: r, client: client}
+func New(dir string, startPage int, r rule.Rule, cookie string, client *http.Client, pageSort int) *Meizar {
+	return &Meizar{dir: dir, currentPage: startPage, userCookie: cookie, r: r, client: client, pageSort: pageSort}
 }
 
 type Meizar struct {
@@ -24,6 +24,7 @@ type Meizar struct {
 	userCookie  string
 	client      *http.Client
 	r           rule.Rule
+	pageSort    int
 }
 
 func (p *Meizar) Start() {
@@ -36,7 +37,11 @@ func (p *Meizar) Start() {
 	for p.currentPage > 0 {
 		time.Sleep(1e9)
 		p.parsePage(p.r.UrlRule() + p.r.PageRule(p.currentPage))
-		p.currentPage--
+		if p.pageSort == 1 {
+			p.currentPage++
+		} else {
+			p.currentPage--
+		}
 	}
 }
 
