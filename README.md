@@ -68,4 +68,4 @@ func (p *JandanRule) ImageRule(doc *goquery.Document, f func(image string)) {
 2. 第二个方法根据当前页返回url后面的页面信息
 3. 第三个方法是内容匹配规则， 将匹配到的内容利用f函数返回
 
-还有哪些你喜欢的网站呢？ 赶紧定制规则来尝试抓取吧。 或者提Issue我来通过抓取规则！
+还有哪些你喜欢的网站呢？ 赶紧定制规则来尝试抓取吧。 或者提Issue我来添加抓取规则！
