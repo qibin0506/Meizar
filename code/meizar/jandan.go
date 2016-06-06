@@ -1,4 +1,4 @@
-package jandan
+package meizar
 
 import (
 	"../rule"
@@ -14,15 +14,14 @@ import (
 	"time"
 )
 
-func New(url string, dir string, startPage int, r rule.Rule, cookie string, client *http.Client) *Jandan {
-	return &Jandan{dir: dir, currentPage: startPage, userCookie: cookie, url: url, r: r, client: client}
+func New(dir string, startPage int, r rule.Rule, cookie string, client *http.Client) *Jandan {
+	return &Jandan{dir: dir, currentPage: startPage, userCookie: cookie, r: r, client: client}
 }
 
 type Jandan struct {
 	dir         string
 	currentPage int
 	userCookie  string
-	url         string
 	client      *http.Client
 	r           rule.Rule
 }
@@ -36,7 +35,7 @@ func (p *Jandan) Start() {
 
 	for p.currentPage > 0 {
 		time.Sleep(1e9)
-		p.parsePage(p.url + strconv.Itoa(p.currentPage))
+		p.parsePage(p.r.UrlRule() + p.r.PageRule(p.currentPage))
 		p.currentPage--
 	}
 }
@@ -86,7 +85,7 @@ func (p *Jandan) parseImageUrl(reader io.Reader) (res []string, err error) {
 		return nil, err
 	}
 
-	p.r.GetRule(doc, func(image string) {
+	p.r.ImageRule(doc, func(image string) {
 		res = append(res, image)
 	})
 

@@ -5,5 +5,7 @@ import (
 )
 
 type Rule interface {
-	GetRule(doc *goquery.Document, f func(image string))
+	UrlRule() (url string)
+	PageRule(currentPage int) (page string)
+	ImageRule(doc *goquery.Document, f func(image string))
 }
