@@ -1,8 +1,8 @@
-# JandanMeizar（注意：仅供娱乐）
+# Meizar（注意：仅供娱乐）
 
-golang实现抓取煎蛋妹子图
+golang实现抓取妹子图
 
-图片来源网站：[http://jandan.net](http://jandan.net)
+默认图片来源网站：[http://jandan.net](http://jandan.net)
 
 依赖项目：[https://github.com/PuerkitoBio/goquery](https://github.com/PuerkitoBio/goquery)
 
@@ -35,3 +35,37 @@ window用户可以直接下载**win_exe**目录下在的zip文件，解压出一
 ![](./art/1.png)
 
 ^_^ 图片就不展示了， 大家可以自己运行看。
+
+## 扩展
+
+默认图片来源是[煎蛋](http://jandan.net)上的， 但是作为一个___，难道一个煎蛋就满足了吗？不可能！！！！
+所以，我们还可以自定义抓取规则，来抓取不同网站的内容。
+
+怎么定制？
+
+只需要实现`Rule`接口的3个方法就可以了。例如煎蛋的抓取规则是：
+``` go
+// /rule/jandanRule.go
+type JandanRule struct{}
+
+func (p *JandanRule) UrlRule() (url string) {
+	return "http://jandan.net/ooxx/"
+}
+
+func (p *JandanRule) PageRule(currentPage int) (page string) {
+	return "page-" + strconv.Itoa(currentPage)
+}
+
+func (p *JandanRule) ImageRule(doc *goquery.Document, f func(image string)) {
+	doc.Find("a.view_img_link").Each(func(i int, s *goquery.Selection) {
+		if img, exist := s.Attr("href"); exist {
+			f(img)
+		}
+	})
+}
+```
+1. 第一个方法返回我们要抓取的url
+2. 第二个方法根据当前页返回url后面的页面信息
+3. 第三个方法是内容匹配规则， 将匹配到的内容利用f函数返回
+
+还有哪些你喜欢的网站呢？ 赶紧定制规则来尝试抓取吧。 或者提Issue我来通过抓取规则！
