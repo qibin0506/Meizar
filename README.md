@@ -22,7 +22,7 @@ go get github.com/PuerkitoBio/goquery
 
 ``` go
 func RuleProvider() Rule {
-	return &JandanRule{}
+	return &MeiRule{}
 }
 ```
 
