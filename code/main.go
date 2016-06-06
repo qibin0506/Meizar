@@ -23,5 +23,5 @@ func init() {
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	meizar.New(*dir, *startPage, &rule.JandanRule{}, *userCookie, client).Start()
+	meizar.New(*dir, *startPage, rule.RuleProvider(), *userCookie, client).Start()
 }
