@@ -14,7 +14,8 @@ go get github.com/PuerkitoBio/goquery
 ## 2016/6/7更新
 
 1. 增加RuleProvider函数，所以，切换Rule时，只需要修改RuleProvider的返回值就可以
-2. 增加一个新的Rule-MeiRule，该Rule用来抓取[https://meizi.us/](https://meizi.us/)图片。
+2. 增加一个新的Rule-MeiRule，该Rule用来抓取[https://meizi.us/](https://meizi.us/)图片
+3. 增加pagesort参数，用来指定页码增加规则， 1为升序，0为降序，默认为0
 
 默认的Rule还是JandanRule， 想要切换到MeiRule的方法是：
 修改/rule/ruleProvider.go文件，将RuleProvider方法的返回值指定为MeiRule.
@@ -44,6 +45,7 @@ window用户可以直接下载**win_exe**目录下在的zip文件，解压出一
 1. -dir 可选， 制定图片保存路径，默认保存当前目录/images/下
 2. -start 可选，从多少页开始，默认从第2009页开始抓取(注意程序是按照页码倒序抓取的)
 3. -cookie 可选，用户使用的cookie， chrome下可以打开[http://jandan.net](http://jandan.net)，按F12键，选择network项查看，这个参数主要在抓取时发生503错误使用的，默认不用指定
+4. -pagesort 可选，指定页码增加规则， 1为升序，0为降序，默认为0
 
 ## 效果
 
