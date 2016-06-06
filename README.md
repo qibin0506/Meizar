@@ -11,6 +11,21 @@ golang实现抓取妹子图
 go get github.com/PuerkitoBio/goquery
 ```
 
+## 2016/6/7更新
+
+1. 增加RuleProvider函数，所以，切换Rule时，只需要修改RuleProvider的返回值就可以
+2. 增加一个新的Rule-MeiRule，该Rule用来抓取[https://meizi.us/](https://meizi.us/)图片。
+
+默认的Rule还是JandanRule， 想要切换到MeiRule的方法是：
+修改/rule/ruleProvider.go文件，将RuleProvider方法的返回值指定为MeiRule.
+代码：
+
+``` go
+func RuleProvider() Rule {
+	return &JandanRule{}
+}
+```
+
 ## 如何使用
 
 window用户可以直接下载**win_exe**目录下在的zip文件，解压出一个main.exe文件。
