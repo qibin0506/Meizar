@@ -14,11 +14,11 @@ import (
 	"time"
 )
 
-func New(dir string, startPage int, r rule.Rule, cookie string, client *http.Client) *Jandan {
-	return &Jandan{dir: dir, currentPage: startPage, userCookie: cookie, r: r, client: client}
+func New(dir string, startPage int, r rule.Rule, cookie string, client *http.Client) *Meizar {
+	return &Meizar{dir: dir, currentPage: startPage, userCookie: cookie, r: r, client: client}
 }
 
-type Jandan struct {
+type Meizar struct {
 	dir         string
 	currentPage int
 	userCookie  string
@@ -26,7 +26,7 @@ type Jandan struct {
 	r           rule.Rule
 }
 
-func (p *Jandan) Start() {
+func (p *Meizar) Start() {
 	if !p.isExist(p.dir) {
 		if err := os.Mkdir(p.dir, 0777); err != nil {
 			panic("can not mkdir " + p.dir)
@@ -40,7 +40,7 @@ func (p *Jandan) Start() {
 	}
 }
 
-func (p *Jandan) parsePage(url string) {
+func (p *Meizar) parsePage(url string) {
 	req := p.buildRequest(url)
 	resp, err := p.client.Do(req)
 
@@ -68,7 +68,7 @@ func (p *Jandan) parsePage(url string) {
 	}
 }
 
-func (p *Jandan) buildRequest(url string) *http.Request {
+func (p *Meizar) buildRequest(url string) *http.Request {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		panic(err)
@@ -79,7 +79,7 @@ func (p *Jandan) buildRequest(url string) *http.Request {
 	return req
 }
 
-func (p *Jandan) parseImageUrl(reader io.Reader) (res []string, err error) {
+func (p *Meizar) parseImageUrl(reader io.Reader) (res []string, err error) {
 	doc, err := goquery.NewDocumentFromReader(reader)
 	if err != nil {
 		return nil, err
@@ -92,7 +92,7 @@ func (p *Jandan) parseImageUrl(reader io.Reader) (res []string, err error) {
 	return res, nil
 }
 
-func (p *Jandan) downloadImage(url string) {
+func (p *Meizar) downloadImage(url string) {
 	fileName := p.getNameFromUrl(url)
 	if p.isExist(p.dir + fileName) {
 		fmt.Println("already download " + fileName)
@@ -126,7 +126,7 @@ func (p *Jandan) downloadImage(url string) {
 	fmt.Println("success download " + fileName)
 }
 
-func (p *Jandan) isExist(dir string) bool {
+func (p *Meizar) isExist(dir string) bool {
 	_, err := os.Stat(dir)
 	if err == nil {
 		return true
@@ -135,7 +135,7 @@ func (p *Jandan) isExist(dir string) bool {
 	return os.IsExist(err)
 }
 
-func (p *Jandan) getNameFromUrl(url string) string {
+func (p *Meizar) getNameFromUrl(url string) string {
 	arr := strings.Split(url, "/")
 	return arr[len(arr)-1]
 }
