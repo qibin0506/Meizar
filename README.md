@@ -6,11 +6,6 @@ golang实现抓取妹子图
 
 依赖项目：[https://github.com/PuerkitoBio/goquery](https://github.com/PuerkitoBio/goquery)
 
-编译源码前，请准备好以上项目， 方法：
-``` go
-go get github.com/PuerkitoBio/goquery
-```
-
 ## 2016/6/7更新
 
 1. 增加RuleProvider函数，所以，切换Rule时，只需要修改RuleProvider的返回值就可以
